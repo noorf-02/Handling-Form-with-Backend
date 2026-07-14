@@ -9,24 +9,31 @@ function FormComponent() {
     username: "",
     password: "",
   });
-  const [userArr, setUserArr] = useState([]);
+  const [userArray, setArray] = useState([]);
 
   function setInputs(e) {
-    const value = e.target.value;
     const name = e.target.name;
+    const value = e.target.value;
     setUser({ ...user, [name]: value });
+    console.log({ ...user, [name]: value });
   }
 
   function submitForm(e) {
-   
-    if(!user.firstName || !user.lastName || !user.username || !user.password){
-      alert('Please Fill all fields!')
-    }
-    else{
-       e.preventDefault();
-    const userObj = { ...user };
-    setUserArr([...userArr, userObj]);
-    console.log([...userArr, userObj]);
+    e.preventDefault();
+
+    if (!user.firstName || !user.lastName || !user.username || !user.password) {
+      alert("Please fill all fields");
+    } else {
+      const userObject = { ...user };
+      console.log([...userArray, userObject]);
+      setArray([...userArray, userObject]);
+
+      setUser({
+        firstName: "",
+        lastName: "",
+        username: "",
+        password: "",
+      });
     }
   }
 
@@ -107,6 +114,22 @@ function FormComponent() {
             Submit User
           </button>
         </form>
+      </div>
+
+
+      <div>
+        {
+          userArray.map((myuser)=>{
+            console.log(myuser)
+            return(
+              <div>
+                <h1>
+                  {myuser.firstName}
+                </h1>
+              </div>
+            )
+          })
+        }
       </div>
     </>
   );
