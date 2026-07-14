@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function FormComponent() {
   const navigate = useNavigate();
@@ -18,15 +19,17 @@ function FormComponent() {
     console.log({ ...user, [name]: value });
   }
 
-  function submitForm(e) {
+  async function submitForm(e) {
     e.preventDefault();
 
     if (!user.firstName || !user.lastName || !user.username || !user.password) {
       alert("Please fill all fields");
     } else {
-      const userObject = { ...user };
-      console.log([...userArray, userObject]);
-      setArray([...userArray, userObject]);
+      const submitRes = await axios.post(
+        "http://localhost:5000/createUsers",
+        user,
+        navigate("/"),
+      );
 
       setUser({
         firstName: "",
@@ -114,22 +117,6 @@ function FormComponent() {
             Submit User
           </button>
         </form>
-      </div>
-
-
-      <div>
-        {
-          userArray.map((myuser)=>{
-            console.log(myuser)
-            return(
-              <div>
-                <h1>
-                  {myuser.firstName}
-                </h1>
-              </div>
-            )
-          })
-        }
       </div>
     </>
   );
