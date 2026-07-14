@@ -17,7 +17,13 @@ function LandingComponent() {
   }, []);
 
   async function removeUser(id) {
-    const res = await axios.delete(`http://localhost:5000/getUser/${id}`);
+    try {
+      const res = await axios.delete(`http://localhost:5000/getUser/${id}`);
+      const removedUser = user.filter((myUser) => myUser._id !== id);
+      setUser(removedUser);
+    } catch (err) {
+      console.log("Delete Failed", err);
+    }
   }
 
   return (
@@ -41,7 +47,7 @@ function LandingComponent() {
           {user.map((myUser) => {
             console.log(myUser);
             return (
-              <div className="card border-1 border-gray-100 p-4 rounded-2xl shadow-2xl w-[310px]">
+              <div key={myUser._id} className="card border-1 border-gray-100 p-4 rounded-2xl shadow-2xl w-[310px]">
                 <p className="flex gap-2 overflow-auto ">
                   <span className="font-medium">First Name:</span>{" "}
                   <span>{myUser.firstName}</span>
